@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言分享系統</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            color: #0056b3;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        input {
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #003d80;
+        }
+        #share-link {
+            display: block;
+            margin: 10px 0;
+            color: #0056b3;
+            word-break: break-all;
+        }
+        #message-display {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>留言分享系統</h1>
+    <p>輸入你的留言，點擊「生成分享連結」，然後將連結分享給其他人，他們就可以看到你的留言！</p>
+
+    <!-- 輸入框與按鈕 -->
+    <input type="text" id="message-input" placeholder="輸入你的留言">
+    <button onclick="generateShareLink()">生成分享連結</button>
+
+    <!-- 生成的分享連結 -->
+    <p>分享連結：<a id="share-link" href="#" target="_blank"></a></p>
+
+    <!-- 留言顯示區 -->
+    <h2>留言顯示</h2>
+    <div id="message-display"></div>
+
+    <script>
+        // 解析 URL 中的留言並顯示
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('msg');
+        if (message) {
+            const display = document.getElementById('message-display');
+            display.textContent = decodeURIComponent(message);
+        }
+
+        // 生成分享連結
+        function generateShareLink() {
+            const input = document.getElementById('message-input');
+            const shareLinkElement = document.getElementById('share-link');
+            if (input.value.trim()) {
+                const encodedMessage = encodeURIComponent(input.value.trim());
+                const shareLink = `${window.location.origin}${window.location.pathname}?msg=${encodedMessage}`;
+                shareLinkElement.href = shareLink;
+                shareLinkElement.innerText = shareLink;
+            } else {
+                alert("請輸入一條留言！");
+            }
+        }
+    </script>
+</body>
+</html>
